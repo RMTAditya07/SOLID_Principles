@@ -18,7 +18,7 @@ What will happen if you write all kinds of responsibilities in one place?
 - makes your code quite ==complex== and ==unmanageable==
 - ==difficult to adjust new changes== later as there are high chances it will affect the other functionality
    
-### How Single Responsibility Principle is applied in the code?
+#### How Single Responsibility Principle is applied in the code?
 
 - **Product class** doesn't care about discounts, offers, or taxes - its only responsibility is to represent the product.
 - **Discount and Offer classes** only deal with calculating their respective discounts and offers, making it easy to extend the system with new discounts or offers without affecting other parts of the code.
@@ -44,7 +44,7 @@ Common techniques to apply OCP:
 - Using Polymorphism
 - using Strategy Pattern
 
-### How OCP is followed in the code ?
+#### How OCP is followed in the code ?
 
 1. **Discounts and Offers**
    
@@ -84,7 +84,7 @@ Common techniques to apply OCP:
 - When LSP is violated, it often leads to strange, hard-to-find bugs. 
 - If your code relies on a specific subclass behavior, but you're using a base class reference, things can go awry.
 
-### How LSP is applied in the code?
+#### How LSP is applied in the code?
 
 1. **Discount Classes**:
    - All discount classes implement the `Discount` interface.
@@ -117,7 +117,7 @@ By adhering to LSP:
 2. In other words, a class should have small, focused interfaces rather than large, monolithic ones. 
 
 
-### How ISP applies to the code:
+#### How ISP applies to the code:
 
 1. **Discount Interface**:
     - The Discount interface, which has a single method applyDiscount(Product product), is a great example of an interface that is already adhering to ISP because it defines only one responsibility: applying a discount to a product. 
@@ -184,3 +184,60 @@ By following ISP:
 - **Classes remain focused** on what they are meant to do.
 - **No class is overloaded** with unnecessary responsibilities, leading to a cleaner and more maintainable design.
 - **Future changes** become easier because you only need to modify specific parts of the system without affecting unrelated areas.
+
+## Dependency Inversion Principle (DIP)
+
+1. high-level modules should not depend on low-level modules
+2. both should depend on abstractions
+
+Benefits of Dependency Inversion Principle
+- Loose Coupling
+- Testability
+- Maintainability
+- Scalability
+
+
+**Problem without DIP**:
+
+Without applying DIP, you might have high-level classes like BillingService depending directly on concrete implementations, which causes the system to be rigid and difficult to extend. 
+
+For example:
+
+```
+public class BillingService {
+    private StandardTaxCalculator taxCalculator; // Depends on concrete class
+    private PercentageDiscount discount;         // Depends on concrete class
+
+    public BillingService() {
+        this.taxCalculator = new StandardTaxCalculator(); // Tight coupling
+        this.discount = new PercentageDiscount(10);       // Tight coupling
+    }
+
+    public double calculateTotal(Product product) {
+        double total = product.getPrice();
+        total -= discount.applyDiscount(product);
+        total += taxCalculator.calculateTax(product);
+        return total;
+    }
+}
+
+```
+
+In this case, the BillingService class depends directly on the concrete implementations of StandardTaxCalculator and PercentageDiscount. This violates the Dependency Inversion Principle because:
+
+- BillingService (a high-level module) is tightly coupled with low-level modules (StandardTaxCalculator and PercentageDiscount).
+- Any change to these classes would require modifying BillingService.
+- It's harder to extend the system with new types of calculators or discounts without changing the core logic.
+
+**Solution Using DIP**
+
+- To adhere to the Dependency Inversion Principle, we need to make both high-level and low-level modules depend on abstractions (interfaces). 
+- The BillingService should not depend on specific implementations of tax calculators or discounts, but rather on their abstractions (interfaces). 
+- This way, we can easily swap implementations without modifying the BillingService.
+
+#### How DIP is applied?
+
+- High-level modules (BillingService) no longer depend on low-level modules (e.g., StandardTaxCalculator, FlatRateDiscount). Instead, both depend on abstractions (TaxCalculator, Discount, IOffer).
+- Low-level modules (e.g., StandardTaxCalculator) also depend on the same abstractions, making the system more flexible and easier to extend.
+- By using dependency injection, the high-level module receives its dependencies from outside, ensuring a decoupled design.
+- This makes the system more maintainable, flexible, and testable since new features can be added without modifying existing code or introducing tight coupling.
