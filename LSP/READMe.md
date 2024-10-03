@@ -13,12 +13,12 @@ In simpler terms, any implementation of an abstraction (interface) should be sub
 - Adhering to LSP helps avoid these bugs and makes your code more robust and flexible.
 
 #### How This Applies to LSP:
-- The Liskov Substitution Principle states that objects of a superclass should be replaceable with objects of its subclasses without affecting the correctness of the program.
-- In this case, FileService can accept any subclass of FileStorage, whether it's LocalFileStorage or CloudFileStorage. The system remains flexible and functional, regardless of the specific type of storage used. You can later add new storage options (e.g., DatabaseFileStorage) without changing the FileService code.
-- This approach ensures that the system is extensible and maintainable, whic
+- The Liskov Substitution Principle states that objects of a superclass should be ==replaceable with objects of its subclasses== without affecting the correctness of the program.
+- In this case, FileService can ==accept any subclass of FileStorage==, whether it's LocalFileStorage or CloudFileStorage. The system remains flexible and functional, regardless of the specific type of storage used. You can later add new storage options (e.g., DatabaseFileStorage) without changing the FileService code.
+- This approach ensures that the system is extensible and maintainable.
 
 #### By adhering to LSP:
 
-- New implementations can be introduced easily without needing to modify existing classes.
+- New implementations can be introduced easily ==without needing to modify== existing classes.
 - Existing code remains functional and correct when using a subclass in place of its parent or an interface it implements.
 - This ensures a robust and flexible system that can grow as new requirements  arise without violating the Liskov Substitution Principle.
