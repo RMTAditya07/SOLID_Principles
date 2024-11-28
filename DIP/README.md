@@ -1,4 +1,4 @@
-# Dependency Injection Principle
+# Dependency Inversion Principle
 
 >  high-level modules should not depend on low-level modules and both should depend on abstractions
 
