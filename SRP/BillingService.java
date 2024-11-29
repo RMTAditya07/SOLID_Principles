@@ -14,22 +14,21 @@ public class BillingService {
     public double calculateTotal(Product product) {
         double total = product.getPrice();
 
-
-        //discounts
-        for(Discount discount : discounts) {
+        // Apply discounts
+        for (Discount discount : discounts) {
             total -= discount.applyDiscount(product);
         }
-        
-        // offers
-        for(IOffer offer : offers){
-            if(offer.isApplicable()){
+
+        // Apply offers
+        for (IOffer offer : offers) {
+            if (offer.isApplicable()) {
                 total -= offer.applyOffer(product);
             }
         }
 
+        // Apply tax
         total += taxCalculator.calculateTax(product);
 
         return total;
-    
     }
 }
